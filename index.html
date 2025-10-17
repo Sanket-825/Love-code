@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Special Question for You</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #fce4ec; /* Light pink background */
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 30px 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 450px;
+            width: 90%;
+            position: relative; /* Crucial for positioning the 'No' button */
+        }
+
+        .gif-container img {
+            max-width: 150px;
+            height: 150px; /* Fixed height for consistency */
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #e91e63;
+            margin-bottom: 5px;
+            font-size: 1.8em;
+        }
+
+        p {
+            color: #757575;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            outline: none;
+            min-width: 100px;
+        }
+
+        #yesBtn {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        #noBtn {
+            background-color: #f44336;
+            color: white;
+        }
+        
+        #finalMessage h1 {
+            font-size: 1.5em; /* Smaller font for final message */
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container" id="container">
+        <div class="gif-container">
+            <img id="gif" src="https://tenor.com/view/bubu-dudu-sseeyall-gif-10402284298245091480.gif" alt="Cute character waving">
+        </div>
+        <h1 id="question">DO you love me? 🥰</h1>
+        <p id="subtext">Sanket is all yours</p>
+        <div class="buttons">
+            <button class="btn" id="yesBtn">Yes</button>
+            <button class="btn" id="noBtn">No</button>
+        </div>
+        <div class="message" id="finalMessage" style="display:none;">
+             <h1>hehehe I knew it! Love you alot.. 🥰</h1>
+        </div>
+    </div>
+
+    <script>
+        const container = document.getElementById('container');
+        const gif = document.getElementById('gif');
+        const question = document.getElementById('question');
+        const subtext = document.getElementById('subtext');
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const finalMessage = document.getElementById('finalMessage');
+
+        let noClickCount = 0;
+
+        noBtn.addEventListener('click', () => {
+            noClickCount++;
+            handleNoClick();
+        });
+
+
+
+        function handleNoClick() {
+            switch (noClickCount) {
+                case 1:
+                    // First click: Change content, button is still static
+                    gif.src = "https://tenor.com/view/bubu-dudu-seeyall-gif-18048824544403998187.gif";
+                    question.textContent = "Please think again 🤔";
+                    subtext.textContent = "itni jaldi nahi matt bolo";
+                    break;
+                case 2:
+                    // Second click: Change content again, button is still static
+                    gif.src = "https://tenor.com/view/notice-me-dudu-dudu-sorry-notice-me-bubu-i%27m-sorry-dudu-mad-gif-15083006859796718945.gif";
+                    question.textContent = "Ek aur baar soch lo 🥺";
+                    subtext.textContent = "kyo Aisa kar rahi ho";
+                    break;
+            case 3:
+                gif.src = "https://tenor.com/view/dubu-gif-6167664923462297707.gif";
+                question.textContent = "Baby maan jao na kitna rulaogi 😢";
+                subtext.textContent = "kya itna bura hu mein haan!!";
+
+                // Step 1: Put No button beside Yes button
+                noBtn.style.position = 'absolute';
+                const yesRect = yesBtn.getBoundingClientRect();
+                const containerRect = container.getBoundingClientRect();
+
+                // calculate position beside yes button (to the right side)
+                const offsetX = yesRect.right - containerRect.left + 20; // 10px gap
+                const offsetY = yesRect.top - containerRect.top;
+                noBtn.style.left = `${offsetX}px`;
+                noBtn.style.top = `${offsetY}px`;
+
+                // Step 2: Now make it run away on hover/click
+                noBtn.addEventListener('mouseover', moveButton);
+                break;
+
+                default:
+                    // Subsequent clicks also move the button
+                    moveButton();
+                    break;
+            }
+        }
+
+        function moveButton() {
+            const containerRect = container.getBoundingClientRect();
+            const noBtnRect = noBtn.getBoundingClientRect();
+
+            const newX = Math.random() * (containerRect.width - noBtnRect.width);
+            const newY = Math.random() * (containerRect.height - noBtnRect.height);
+            
+            noBtn.style.left = `${newX}px`;
+            noBtn.style.top = `${newY}px`;
+        }
+
+        yesBtn.addEventListener('click', () => {
+            // Hide everything and show final message
+            question.style.display = 'none';
+            subtext.style.display = 'none';
+            yesBtn.style.display = 'none';
+            noBtn.style.display = 'none';
+
+            // Show final message and GIF
+            gif.src = 'https://tenor.com/view/posi1-gif-14453916318436171937.gif';
+            finalMessage.style.display = 'block';
+        });
+
+    </script>
+     <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+</body>
+</html>
